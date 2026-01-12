@@ -39,6 +39,9 @@ xcodebuild \
     -configuration Release \
     ARCHS="arm64 x86_64" \
     ONLY_ACTIVE_ARCH=NO \
+    DEBUG_INFORMATION_FORMAT=dwarf \
+    STRIP_INSTALLED_PRODUCT=YES \
+    DEPLOYMENT_POSTPROCESSING=YES \
     $QUIET_FLAG clean build &> $QUIET_OUTPUT
 status "Build complete!"
 
@@ -146,13 +149,14 @@ status "Language queries copied to package resources!"
 
 status "Downloading missing queries from neovim-treesitter"
 
-CLONE_DIR="$PWD/DerivedData/Clones"
+cd $OLD_PWD
+CLONE_DIR="$OLD_PWD/DerivedData/Clones"
 
 rm -rf $CLONE_DIR
 mkdir -p $CLONE_DIR
 
 MISSING_QUERIES_URL="https://github.com/nvim-treesitter/nvim-treesitter"
-MISSING_QUERIES_ROOT="queries"
+MISSING_QUERIES_ROOT="runtime/queries"
 LICENSE_NOTICE='; Copyright 2025 nvim-treesitter
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
